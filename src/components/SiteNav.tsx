@@ -10,17 +10,66 @@ export default function SiteNav() {
           Vecto
         </Link>
         <div className="hidden md:flex items-center gap-5">
-          <Link href="/capcut" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">Explore</Link>
-          <Link href="/capcut" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">CapCut</Link>
-          <Link href="/after-effects" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">After Effects</Link>
-          <Link href="/collections/featured" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">Collections</Link>
-          <Link href="/submit" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">Submit</Link>
+          <Link 
+            href="/capcut" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            Explore
+          </Link>
+          <Link 
+            href="/capcut" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            CapCut
+          </Link>
+          <Link 
+            href="/after-effects" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            After Effects
+          </Link>
+          <Link 
+            href="/collections/featured" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            Collections
+          </Link>
+          <Link 
+            href="/submit" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            Submit
+          </Link>
         </div>
         <div className="flex-1" />
         <div className="hidden sm:flex items-center gap-3">
           <ThemeToggle />
-          <Link href="/login" className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">Log in</Link>
-          <Link href="/signup" className="text-sm rounded-full bg-slate-900 text-white px-3 py-1.5 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200">Sign up</Link>
+          <Link 
+            href="/login" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+          >
+            Log in
+          </Link>
+          <Link 
+            href="/signup" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sm rounded-full bg-slate-900 text-white px-3 py-1.5 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
+          >
+            Sign up
+          </Link>
         </div>
         <button aria-label="Open menu" className="sm:hidden inline-flex items-center justify-center h-9 w-9 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800">
           ☰
