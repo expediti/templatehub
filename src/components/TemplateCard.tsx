@@ -25,7 +25,12 @@ export default function TemplateCard({
   editorName,
 }: Props) {
   return (
-    <Link href={`/template/${slug}`} className="block">
+    <Link 
+      href={`/template/${slug}`} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="block"
+    >
       <motion.div
         whileHover={{ scale: 1.015 }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
