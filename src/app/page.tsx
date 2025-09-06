@@ -2,6 +2,26 @@ import Link from "next/link";
 import TemplateCard from "@/components/TemplateCard";
 import { supabase } from "@/lib/supabaseClient";
 
+interface Template {
+  title: string;
+  slug: string;
+  description: string;
+  thumb_url: string;
+  preview_url: string;
+  editor_id: string | null;
+  created_at: string;
+}
+
+interface Tag {
+  name: string;
+  slug: string;
+}
+
+interface Editor {
+  id: string;
+  name: string;
+}
+
 export const revalidate = 0;
 
 export default async function Home() {
@@ -12,17 +32,17 @@ export default async function Home() {
     .order("created_at", { ascending: false })
     .limit(12);
   const { data: editors } = await supabase.from("editors").select("id, name");
-  
+
   const editorName = (id?: string | null) =>
-    editors?.find((e) => e.id === id)?.name ?? undefined;
+    editors?.find((e: Editor) => e.id === id)?.name ?? undefined;
 
   return (
     <div>
-      {/* Hero Banner Section with your generated image */}
+      {/* Hero Banner Section */}
       <section className="relative bg-slate-900 dark:bg-slate-900 rounded-3xl overflow-hidden mx-4 my-6">
-        <img 
-          src="https://files.catbox.moe/fvxb3b.png" 
-          alt="Discover the world's top video templates" 
+        <img
+          src="https://files.catbox.moe/fvxb3b.png"
+          alt="Discover the world's top video templates"
           className="w-full h-auto object-cover"
         />
         <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8">
@@ -32,9 +52,9 @@ export default async function Home() {
           <p className="text-lg text-white/90 mb-8 max-w-xl">
             Browse hundreds of professionally designed templates for CapCut and After Effects from creators worldwide.
           </p>
-          <Link 
-            href="/capcut" 
-            target="_blank" 
+          <Link
+            href="/capcut"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center px-8 py-3 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold rounded-full transition-colors"
           >
@@ -53,7 +73,7 @@ export default async function Home() {
             <p className="mt-4 text-slate-600 dark:text-slate-300 max-w-2xl">
               Explore high‑quality CapCut and After Effects templates from creators worldwide. Hover to preview. Click to use.
             </p>
-            
+
             <div className="mt-6 flex items-center gap-3">
               <button className="rounded-full border border-slate-300 dark:border-slate-600 px-3 py-1.5 text-sm bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">
                 Templates
@@ -65,7 +85,6 @@ export default async function Home() {
                 Collections
               </button>
             </div>
-
             <form action="/capcut" method="get" target="_blank" className="mt-5">
               <div className="relative">
                 <input
@@ -78,12 +97,11 @@ export default async function Home() {
                 </button>
               </div>
             </form>
-
             <div className="mt-3 flex flex-wrap gap-2 text-sm">
               {(tags && tags.length > 0
-                ? tags.map((t) => t.name)
+                ? tags.map((t: Tag) => t.name)
                 : ["Transitions", "Titles", "Reels Hooks", "Intros", "Lower Thirds", "LUTs"]
-              ).map((label) => (
+              ).map((label: string) => (
                 <Link
                   key={label}
                   href={`/capcut?q=${encodeURIComponent(label)}`}
@@ -96,8 +114,9 @@ export default async function Home() {
               ))}
             </div>
           </div>
-
-          <div className="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 aspect-video" />
+          <div className="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 aspect-video">
+            {/* You can add a placeholder or video preview here if needed */}
+          </div>
         </div>
       </section>
 
@@ -105,44 +124,43 @@ export default async function Home() {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex items-center justify-between">
           <h3 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Discover</h3>
-          <div className="hidden md:flex items-center gap-4 text-sm">
-            <Link 
-              href="/capcut?sort=popular" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+          <div className="flex items-center gap-4 text-sm">
+            <Link
+              href="/capcut?sort=popular"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
             >
               Popular
             </Link>
-            <Link 
-              href="/capcut?sort=new" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link
+              href="/capcut?sort=new"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
             >
               New
             </Link>
-            <Link 
-              href="/capcut?sort=trending" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link
+              href="/capcut?sort=trending"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
             >
               Trending
             </Link>
+            <Link
+              href="/capcut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-indigo-600 hover:underline dark:text-indigo-400"
+            >
+              Explore all →
+            </Link>
           </div>
-          <Link 
-            href="/capcut" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-sm text-indigo-600 hover:underline dark:text-indigo-400"
-          >
-            Explore all →
-          </Link>
         </div>
-
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {(templates ?? []).map((t) => (
+          {(templates ?? []).map((t: Template) => (
             <TemplateCard
               key={t.slug}
               slug={t.slug}
@@ -155,7 +173,6 @@ export default async function Home() {
             />
           ))}
         </div>
-
         {(!templates || templates.length === 0) && (
           <div className="mt-16 text-center text-slate-500 dark:text-slate-400">
             No templates found yet. Add some in your database.
