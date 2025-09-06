@@ -18,12 +18,38 @@ export default async function Home() {
 
   return (
     <div>
+      {/* Hero Banner Section with your generated image */}
+      <section className="relative bg-slate-900 dark:bg-slate-900 rounded-3xl overflow-hidden mx-4 my-6">
+        <img 
+          src="https://files.catbox.moe/fvxb3b.png" 
+          alt="Discover the world's top video templates" 
+          className="w-full h-auto object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 max-w-3xl leading-tight">
+            Discover the World&apos;s Top Video Templates
+          </h1>
+          <p className="text-lg text-white/90 mb-8 max-w-xl">
+            Browse hundreds of professionally designed templates for CapCut and After Effects from creators worldwide.
+          </p>
+          <Link 
+            href="/capcut" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-8 py-3 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold rounded-full transition-colors"
+          >
+            Start Creating
+          </Link>
+        </div>
+      </section>
+
+      {/* Main Content Section */}
       <section className="border-y bg-white dark:bg-slate-900 transition-colors">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] text-slate-900 dark:text-slate-100">
+            <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] text-slate-900 dark:text-slate-100">
               Discover the world&apos;s top <span className="text-slate-900 dark:text-slate-100">video templates</span>
-            </h1>
+            </h2>
             <p className="mt-4 text-slate-600 dark:text-slate-300 max-w-2xl">
               Explore high‑quality CapCut and After Effects templates from creators worldwide. Hover to preview. Click to use.
             </p>
@@ -75,9 +101,10 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Templates Grid Section */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Discover</h2>
+          <h3 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">Discover</h3>
           <div className="hidden md:flex items-center gap-4 text-sm">
             <Link 
               href="/capcut?sort=popular" 
