@@ -104,13 +104,11 @@ export default async function TemplateDetail({
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
               {template.title}
             </h1>
-
             {template.description && (
               <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-6">
                 {template.description}
               </p>
             )}
-
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
               {template.editors?.name && (
@@ -135,6 +133,7 @@ export default async function TemplateDetail({
               )}
             </div>
           </div>
+        </div>
 
         {/* Sidebar */}
         <aside className="lg:col-span-2 space-y-6">
