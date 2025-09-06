@@ -3,28 +3,6 @@ import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Editor {
-  name: string;
-  slug: string;
-}
-
-interface Template {
-  id: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  preview_url: string | null;
-  thumb_url: string | null;
-  download_url: string | null;
-  editor_id: string | null;
-  orientation: string | null;
-  created_at: string;
-  is_free: boolean;
-  difficulty: string | null;
-  duration_sec: number | null;
-  editors: Editor | null;
-}
-
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -57,7 +35,7 @@ export default async function TemplateDetail({
           Home
         </Link>
         <span className="mx-2">/</span>
-        {template.editors?.slug && (
+        {template.editors && (
           <>
             <Link
               href={`/${template.editors.slug}`}
@@ -74,6 +52,7 @@ export default async function TemplateDetail({
       <div className="grid lg:grid-cols-5 gap-8">
         {/* Video Preview and Template Info */}
         <div className="lg:col-span-3 space-y-6">
+          {/* Video Preview */}
           <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 shadow-sm">
             <div className="relative aspect-video bg-black">
               {template.preview_url ? (
@@ -97,21 +76,22 @@ export default async function TemplateDetail({
                 </div>
               )}
             </div>
-          </div>
 
           {/* Template Info */}
           <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
               {template.title}
             </h1>
+
             {template.description && (
               <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-6">
                 {template.description}
               </p>
             )}
+
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {template.editors?.name && (
+              {template.editors && (
                 <span className="rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 text-sm font-medium">
                   {template.editors.name}
                 </span>
@@ -136,7 +116,7 @@ export default async function TemplateDetail({
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-2 space-y-6">
+        <aside className="lg:col-span-2">
           <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
             <h2 className="font-semibold text-slate-900 dark:text-slate-100 mb-4">
               Get This Template
@@ -199,7 +179,7 @@ export default async function TemplateDetail({
             </div>
 
             {/* Related Templates Link */}
-            {template.editors?.slug && (
+            {template.editors && (
               <Link
                 href={`/${template.editors.slug}`}
                 className="mt-6 w-full inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 py-3 text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
