@@ -3,8 +3,30 @@ import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+interface Editor {
+  name: string;
+  slug: string;
+}
+
+interface Template {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  preview_url: string | null;
+  thumb_url: string | null;
+  download_url: string | null;
+  editor_id: string | null;
+  orientation: string | null;
+  created_at: string;
+  is_free: boolean;
+  difficulty: string | null;
+  duration_sec: number | null;
+  editors: Editor | null;
+}
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function TemplateDetail({
   params,
@@ -18,7 +40,7 @@ export default async function TemplateDetail({
   const { data: template } = await supabase
     .from("templates")
     .select(`
-      id, title, slug, description, preview_url, thumb_url, download_url, 
+      id, title, slug, description, preview_url, thumb_url, download_url,
       editor_id, orientation, created_at, is_free, difficulty, duration_sec,
       editors (name, slug)
     `)
@@ -31,12 +53,14 @@ export default async function TemplateDetail({
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
       <nav className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-        <Link href="/" className="hover:text-slate-700 dark:hover:text-slate-200">Home</Link>
+        <Link href="/" className="hover:text-slate-700 dark:hover:text-slate-200">
+          Home
+        </Link>
         <span className="mx-2">/</span>
-        {template.editors && (
+        {template.editors?.slug && (
           <>
-            <Link 
-              href={`/${template.editors.slug}`} 
+            <Link
+              href={`/${template.editors.slug}`}
               className="hover:text-slate-700 dark:hover:text-slate-200"
             >
               {template.editors.name}
@@ -48,8 +72,8 @@ export default async function TemplateDetail({
       </nav>
 
       <div className="grid lg:grid-cols-5 gap-8">
-        {/* Video Preview */}
-        <div className="lg:col-span-3">
+        {/* Video Preview and Template Info */}
+        <div className="lg:col-span-3 space-y-6">
           <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 shadow-sm">
             <div className="relative aspect-video bg-black">
               {template.preview_url ? (
@@ -76,11 +100,11 @@ export default async function TemplateDetail({
           </div>
 
           {/* Template Info */}
-          <div className="mt-6">
+          <div>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
               {template.title}
             </h1>
-            
+
             {template.description && (
               <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-6">
                 {template.description}
@@ -89,7 +113,7 @@ export default async function TemplateDetail({
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {template.editors && (
+              {template.editors?.name && (
                 <span className="rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 text-sm font-medium">
                   {template.editors.name}
                 </span>
@@ -111,15 +135,14 @@ export default async function TemplateDetail({
               )}
             </div>
           </div>
-        </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-2">
+        <aside className="lg:col-span-2 space-y-6">
           <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
             <h2 className="font-semibold text-slate-900 dark:text-slate-100 mb-4">
               Get This Template
             </h2>
-            
+
             {/* Download Button */}
             {template.download_url ? (
               <a
@@ -128,12 +151,11 @@ export default async function TemplateDetail({
                 rel="nofollow noopener noreferrer"
                 className="w-full inline-flex items-center justify-center rounded-xl bg-indigo-600 text-white px-6 py-3 text-sm font-semibold hover:bg-indigo-500 transition-colors mb-4"
               >
-                {template.editors?.name === "CapCut" 
-                  ? "Open in CapCut" 
+                {template.editors?.name === "CapCut"
+                  ? "Open in CapCut"
                   : template.editors?.name === "After Effects"
                   ? "Open in After Effects"
-                  : "Download Template"
-                }
+                  : "Download Template"}
               </a>
             ) : (
               <div className="w-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-6 py-3 rounded-xl text-center text-sm mb-4">
@@ -178,11 +200,9 @@ export default async function TemplateDetail({
             </div>
 
             {/* Related Templates Link */}
-            {template.editors && (
-              <Link 
+            {template.editors?.slug && (
+              <Link
                 href={`/${template.editors.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="mt-6 w-full inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 py-3 text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
               >
                 More {template.editors.name} Templates
