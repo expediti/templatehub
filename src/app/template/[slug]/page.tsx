@@ -14,18 +14,21 @@ export default async function TemplateDetail({
   const resolvedParams = await params;
   const { slug } = resolvedParams;
 
-  // Get template details
+  // Get template details - fixed query to get single editor object
   const { data: template } = await supabase
     .from("templates")
     .select(`
       id, title, slug, description, preview_url, thumb_url, download_url, 
       editor_id, orientation, created_at, is_free, difficulty, duration_sec,
-      editors (name, slug)
+      editors!inner (name, slug)
     `)
     .eq("slug", slug)
     .maybeSingle();
 
   if (!template) return notFound();
+
+  // Handle editors as array or object
+  const editor = Array.isArray(template.editors) ? template.editors[0] : template.editors;
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10">
@@ -35,13 +38,13 @@ export default async function TemplateDetail({
           Home
         </Link>
         <span className="mx-2">/</span>
-        {template.editors && (
+        {editor && (
           <>
             <Link 
-              href={`/${template.editors.slug}`} 
+              href={`/${editor.slug}`} 
               className="hover:text-slate-700 dark:hover:text-slate-200"
             >
-              {template.editors.name}
+              {editor.name}
             </Link>
             <span className="mx-2">/</span>
           </>
@@ -91,9 +94,9 @@ export default async function TemplateDetail({
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
-              {template.editors && (
+              {editor && (
                 <span className="rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 text-sm font-medium">
-                  {template.editors.name}
+                  {editor.name}
                 </span>
               )}
               {template.orientation && (
@@ -125,9 +128,9 @@ export default async function TemplateDetail({
                 rel="nofollow noopener noreferrer"
                 className="w-full inline-flex items-center justify-center rounded-xl bg-indigo-600 text-white px-6 py-3 text-sm font-semibold hover:bg-indigo-500 transition-colors mb-4"
               >
-                {template.editors?.name === "CapCut" 
+                {editor?.name === "CapCut" 
                   ? "Open in CapCut" 
-                  : template.editors?.name === "After Effects"
+                  : editor?.name === "After Effects"
                   ? "Open in After Effects"
                   : "Download Template"
                 }
@@ -143,7 +146,7 @@ export default async function TemplateDetail({
               <div className="flex justify-between">
                 <span className="text-slate-600 dark:text-slate-400">Editor:</span>
                 <span className="font-medium text-slate-900 dark:text-slate-100">
-                  {template.editors?.name || "Unknown"}
+                  {editor?.name || "Unknown"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -159,6 +162,18 @@ export default async function TemplateDetail({
                 </span>
               </div>
             </div>
+
+            {/* Related Templates Link */}
+            {editor && (
+              <Link 
+                href={`/${editor.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 w-full inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 py-3 text-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
+              >
+                More {editor.name} Templates
+              </Link>
+            )}
           </div>
         </aside>
       </div>
